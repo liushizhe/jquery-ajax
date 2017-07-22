@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>跨域测试</title>
+    <style type="text/css">
+    	input[type=button] {
+    		display: block;
+    	}
+    </style>
+</head>
+<body>
+    <input id="btn" type="button" value="跨域获取数据" />
+    <input id="btn-clear" type="button" value="清除数据" />
+    <textarea id="text" style="width: 400px; height: 300px;"></textarea>
+
+    <script src="js/jquery-2.1.1.js"></script>
+    <script>
+    	function showData (result) {
+    			console.log(result.name);
+				var data = JSON.stringify(result); //json对象转成字符串
+				$("#text").val(data);
+			}
+
+        $(document).ready(function () {
+			
+            $("#btn").click(function () {
+                $.ajax({
+                    url: 'http://localhost:8080/jsonp',
+                    type: 'GET',
+                    success: function (data) {
+                        var result = JSON.stringify(data); //json对象转成字符串
+                        $("#text").val(result);
+                    }
+                });
+                // $("head").append("<script src='http://localhost:8080/jsonp?callback=showData'><\/script>");
+                
+                // $.ajax({
+                //      url: "http://192.168.3.123:8080/jsonp",
+                //      type: "GET",
+                //      dataType: "jsonp", //指定服务器返回的数据类型
+                //      success: function (data) {
+                //      	console.log(data);
+                //          var result = JSON.stringify(data); //json对象转成字符串
+                //          $("#text").val(result);
+                //      }
+                //  });
+ 
+                 // $.ajax({
+                 //     url: "http://localhost:8080/jsonp",
+                 //     type: "GET",
+                 //     dataType: "jsonp",  //指定服务器返回的数据类型
+                 //     jsonpCallback: "showData",  //指定回调函数名称
+                 //     success: function (data) {
+                 //         console.log("调用success");
+                 //     }
+                 // });
+                 
+                 // $.ajax({
+                 //     url: "http://localhost:8080/jsonp",
+                 //     type: "GET",
+                 //     dataType: "jsonp",  //指定服务器返回的数据类型
+                 //     jsonp: "theFunction",   //指定参数名称
+                 //     jsonpCallback: "showData",  //指定回调函数名称
+                 //     success: function (data) {
+                 //         console.log("调用success");
+                 //     }
+                 // });
+            });
+
+            $('#btn-clear').click(function() {
+            	$('#text').val('');
+            })
+            
+        });
+    </script>
+</body>
+</html>
